@@ -1,0 +1,18 @@
+FROM node:slim --> node version from docker hub
+WORKDIR /app --> working directory of docker
+COPY . /app --> local location 
+RUN npm install --> add node_module in project when we not add in docker file
+EXPOSE 3000 -->  we expose what is running in this docker file
+CMD node index.js --> run our projcet
+
+
+
+docker login
+docker build -t rajpoot007/nodetest:0.0.1.RELEASE .
+
+----------------------------------------
+>docker   --> list of command
+>docker -v --> check version
+
+
+  

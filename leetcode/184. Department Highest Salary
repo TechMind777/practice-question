@@ -1,0 +1,23 @@
+
+select  d.name Department ,e.name Employee , (e.salary) Salary from  Employee e join Department d on e.departmentId = d.id 
+JOIN (select  departmentId , max(salary) salary from Employee group by departmentId) ds ON ds.salary = e.salary and  ds.departmentId = e.departmentId 
+
+
+
+# Write your MySQL query statement below
+SELECT Department, Employee, Salary
+FROM
+(SELECT E.name AS Employee, salary AS Salary, D.name AS Department, DENSE_RANK() OVER (PARTITION BY E.departmentId ORDER BY salary DESC) AS S_rank
+FROM Employee AS E, Department AS D
+WHERE E.departmentId = D.id) AS smalltable 
+WHERE S_rank = 1;
+
+
+SELECT d.name as Department,e.name as Employee,e.salary 
+FROM Employee as e
+INNER JOIN Department as d ON e.departmentId = d.id
+WHERE (departmentid, salary) IN 
+(SELECT departmentid, MAX(salary) FROM Employee GROUP BY departmentid);
+
+
+

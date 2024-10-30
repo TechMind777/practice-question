@@ -1,0 +1,31 @@
+AWS (EC2, S3, SQS, CloudWatch, RDS)
+
+What exactly EC2 does?
+Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides secure, resizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers. Amazon EC2's simple web service interface allows you to obtain and configure capacity with minimal friction.
+
+What is S3 used for?
+Getting Started – Amazon Simple Storage Service (S3) – AWS
+Getting started with Amazon S3. Amazon Simple Storage Service (Amazon S3) is an object storage service that offers industry-leading scalability, data availability, security, and performance. You can use Amazon S3 to store and retrieve any amount of data at any time, from anywhere.
+
+What is SQS used for?
+Amazon SQS FAQs | Message Simple Queuing Service | AWS
+Amazon SQS is a message queue service used by distributed applications to exchange messages through a polling model, and can be used to decouple sending and receiving components.
+
+What is CloudWatch used for?
+CloudWatch collects the metrics and log data and stores them. It saves the metric data with 1-minute granularity for free for up to 15-months. The CloudWatch console gives you dashboards where you can visualize these metrics and log data using graphs and charts. You can create alarms based on metric thresholds.
+
+What is the use of RDS?
+Amazon RDS allows you to encrypt your databases using keys you manage through AWS Key Management Service (KMS). On a database instance running with Amazon RDS encryption, data stored at rest in the underlying storage is encrypted, as are its automated backups, read replicas, and snapshots.
+
+
+What is a load balancer and how it works?
+Load balancing is the method of distributing network traffic equally across a pool of resources that support an application. Modern applications must process millions of users simultaneously and return the correct text, videos, images, and other data to each user in a fast and reliable manner.
+
+
+What does LaMDA do?
+AWS Lambda is a serverless compute service that runs your code in response to events and automatically manages the underlying compute resources for you. These events may include changes in state or an update, such as a user placing an item in a shopping cart on an ecommerce website.
+
+
+
+
+

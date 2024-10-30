@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Chat</title>
+</head>
+<body>
+  <h1>WebSocket Chat</h1>
+  <input type="text" id="targetId" placeholder="Enter Target User ID"/>
+  <input type="text" id="messageInput" placeholder="Type a message..."/>
+  <button id="sendButton">Send</button>
+  <ul id="messages"></ul>
+
+  <script>
+    // Create a WebSocket connection to the server
+    const ws = new WebSocket('ws://localhost:3000');
+
+    // Elements
+    const targetInput = document.getElementById('targetId');
+    const messageInput = document.getElementById('messageInput');
+    const messagesList = document.getElementById('messages');
+    const sendButton = document.getElementById('sendButton');
+
+    let userId = '';
+
+    // Listen for messages from the server
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      const li = document.createElement('li');
+      if (data.message) {
+        li.textContent = `Server: ${data.message}`;
+      } else {
+        li.textContent = `From ${data.from}: ${data.content}`;
+      }
+      messagesList.appendChild(li);
+
+      if (data.message && data.message.includes('your ID is')) {
+        userId = data.message.split(' ').pop();  // Extract user ID from server welcome message
+      }
+    };
+
+    // Send a message to the server
+    sendButton.addEventListener('click', () => {
+      const message = messageInput.value;
+      const targetId = targetInput.value;
+      const data = JSON.stringify({ targetId, content: message });
+      ws.send(data);
+      messageInput.value = '';
+    });
+  </script>
+</body>
+</html>

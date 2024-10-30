@@ -1,0 +1,28 @@
+docker -version --> in detail
+docker -v -> show only version
+
+> docker run ubuntu 
+> docker run -it ubuntu 
+> docker run -it --name myUbuntu ubuntu 
+
+The `docker run` command runs a command in a new container, pulling the image if needed and starting the container.
+
+You can restart a stopped container with all its previous changes intact using `docker start`. 
+Use `docker ps -a` to view a list of all containers, including those that are stopped.
+
+docker container ls --> show runing caontainer
+docker ps --> show runing caontainer
+
+docker image ls --> show all images
+docker container ls -a --> show all caontainer
+docker ps -a --> show all caontainer
+
+
+docker start  myUbuntu --> stop container
+docker stop  myUbuntu  ---> stopped container
+----------------------------
+
+
+
+
+

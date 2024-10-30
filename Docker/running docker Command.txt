@@ -1,0 +1,98 @@
+docker -version --> in detail
+docker -v -> show only version
+
+> docker run ubuntu 
+> docker run -it ubuntu 
+> docker run -it --name myUbuntu ubuntu 
+
+The `docker run` command runs a command in a new container, pulling the image if needed and starting the container.
+
+You can restart a stopped container with all its previous changes intact using `docker start`. 
+Use `docker ps -a` to view a list of all containers, including those that are stopped.
+
+docker container ls --> show runing caontainer
+docker ps --> show runing caontainer
+
+docker image ls --> show all images
+docker container ls -a --> show all caontainer
+docker ps -a --> show all caontainer
+
+
+docker start  myUbuntu --> stop container
+docker stop  myUbuntu  ---> stopped container
+    docker restart container_name1 container_name2
+
+--------------remove container/image
+docker container rm <container_name>
+docker container rm <container_id>
+docker rm <container_id>
+docker rm container_id1 container_id2
+
+docker rmi image_name
+docker rmi image_id
+docker rmi image_name1 image_name2
+
+---------------------------- mount volume
+docker run -v C:\Users\ajayr\Documents:/app/data ubuntu 
+docker run -it -v E:\DockerData\file1:/app ubuntu
+docker run -it --mount  type=bind,source=C:\Users\ajayr,target=/app/data ubuntu
+
+--------mount volumne after creat container
+docker run -d --name your_container image_name
+docker exec -it your_container mkdir /app/data
+docker exec -it your_container mount -t drvfs C:\Users\YourUsername\Documents /app/data
+
+The -d flag stands for "detached" mode. It means that the Docker container will run in the background as a daemon.
+The -t option specifies the filesystem type to use when mounting the source path (C:\Users\YourUsername\Documents) into the target path (/app/data) within the container.
+In this specific command, -t drvfs indicates the use of the "Docker Volume Driver for Windows" (drvfs) filesystem type. This is particularly relevant when working with Docker containers on Windows and using Docker Desktop.
+
+
+
+---------------pause / unpause
+
+
+In Docker, you can use the docker pause and docker unpause commands to temporarily halt and resume the execution of a running container.
+
+1. Pause Container: To pause a running container, use the docker pause command followed by the container name or ID:
+
+docker pause container_name_or_id
+This command freezes the container's processes, suspending their execution. While a container is paused, it won't consume CPU resources or execute any new commands. It's essentially in a suspended state.
+
+
+2. Unpause Container: To resume the execution of a paused container, use the docker unpause command:
+
+docker unpause container_name_or_id
+
+This command allows the processes inside the container to continue executing from where they were paused.
+
+-------------------- creat new image
+
+To create a new Docker image from the changes made to a running container, you can use the docker commit command. Here's the basic syntax:
+
+docker commit my_container my_custom_image:latest
+
+
+------------------------expose port
+docker run -p host_port:container_port image_name
+
+docker run -p 8080:80 my_web_server_image
+docker run -p 127.0.0.1:8080:80 my_web_server_image // You can also specify an IP address and port range for the host:
+
+docker container update --publish-add host_port:container_port my_container
+docker container update --publish-add 8080:80 my_container
+
+docker container update --publish-add host_ip:host_port:container_port my_container
+
+Verify the Port Mapping:  > docker container inspect my_container
+
+-remove expose port
+docker container update --publish-rm 8080 web_server_container
+
+
+-------------------
+
+
+
+
+
+

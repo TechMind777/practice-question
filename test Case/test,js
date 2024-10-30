@@ -1,0 +1,46 @@
+const request = require('supertest');
+
+describe("Calback", () => {
+
+    it('Add SKU ITEM   ', async function () {
+
+        const parms = {
+            "sku": "sku 4442", 
+        }
+
+
+        const response = await request(app)
+            .post('/save/seller-products')
+            .set('x-sellerid', user.id)
+            .set('accessToken', token)
+            .set('source', user.source)
+            .send(parms);
+
+        let res = JSON.parse(response.res.text) 
+        expect(res.success).toEqual(true);
+
+        let [sku] = await readDB.query('select * from sku_list WHERE item_name = ? ', parms.item_name);
+        console.log('check Add/update SKU')
+        expect(sku[0].sku).toEqual(parms.sku.trim());
+        console.log("parms.sku")
+        expect(sku[0].item_name).toEqual(parms.item_name.trim());
+        console.log("parms.item_name") 
+
+
+    });
+
+
+    before("Setting up user", async () => {
+
+        let [user1] = await readDB.query("SELECT * FROM sellers WHERE id = ?;", sellerID)
+        user = user1[0]
+       
+        const utilClass = new Util()
+        const authTokenClass = new AUTH_TOKEN()
+        const refreshToken = await utilClass.generateToken(payload, process.env.AUTH_REFRESH_SECRECT_KEY, Auth.REFRESH_TOKEN_EXPIRE_TIME);
+        let refreshID = await authTokenClass.insertToken(user.id, refreshToken, payload.source);
+        payload.rid = refreshID
+        token = await utilClass.generateToken(payload, process.env.AUTH_SECRET_KEY, Auth.AUTH_TOKEN_EXPIRE_TIME);
+
+    })
+})

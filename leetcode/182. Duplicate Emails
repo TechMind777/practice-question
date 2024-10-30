@@ -1,0 +1,27 @@
+# Write your MySQL query statement below
+
+select email from (select email ,count(email) as ecount from Person  group by email) as tbl  where ecount > 1
+
+# SELECT email FROM person GROUP BY email HAVING COUNT(email) > 1;
+
+WITH CTE AS (
+    SELECT
+        email,
+        COUNT(1) OVER (PARTITION BY email) AS freq  
+    FROM 
+        PERSON
+)
+SELECT DISTINCT email
+FROM CTE
+WHERE freq != 1
+
+
+select email as Email 
+from (select count(email) as c, email
+from Person
+group by email
+having c > 1) as Person1
+
+
+select distinct p1.email from Person p1,Person p2
+where p1.id<>p2.id and p1.email=p2.email

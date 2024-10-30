@@ -1,0 +1,74 @@
+To start an application:
+$ pm2 start api.js
+
+You can also start any kind of application like bash commands, script, binaries:
+
+$ pm2 start "npm run start"
+$ pm2 start "ls -la"
+$ pm2 start app.py
+
+To start an app and check logs stream use the --attach option:
+$ pm2 start api.js --attach
+When quitting via Ctrl-C, the app will still run in background.
+
+All option passed after -- will be passed as argument to the app:
+$ pm2 start api.js -- arg1 arg2
+
+
+To restart an application:
+$ pm2 restart api
+
+To restart all applications:
+$ pm2 restart all
+
+To restart multiple apps at once:
+$ pm2 restart app1 app3 app4
+
+To stop a specified application:
+$ pm2 stop api
+$ pm2 stop [process_id]
+$ pm2 stop all
+$ pm2 stop app1 app3 app4
+
+
+To stop and delete an application:
+$ pm2 delete api
+
+To delete them all:
+$ pm2 delete all
+
+Listing Applications
+To list all running applications:
+
+$ pm2 list
+# Or
+$ pm2 [list|ls|l|status]
+
+Terminal Dashboard
+pm2 monit
+
+To display metadata about an application:
+$ pm2 show api
+
+
+To display application’s log you can use the command 
+$ pm2 logs
+
+
+# Display all apps logs in realtime
+pm2 logs
+
+# Display only `api` application logs
+pm2 logs api
+
+# Display new logs in json
+pm2 logs --json
+
+# Display 1000 lines of api log file
+pm2 logs big-api --lines 1000
+
+
+This will empty the current application logs managed by PM2:
+pm2 flush
+pm2 flush <api> # Clear the logs for the app with name/id matching <api>
+

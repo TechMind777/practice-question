@@ -1,0 +1,3 @@
+limit - Same as before, amount of rows we want to show on one page
+cursor - ID of a reference element in the list. This can be the first item if you're querying the previous page and the last item if querying the next page.
+cursorDirection - If user clicked Next or Previous (after or before)

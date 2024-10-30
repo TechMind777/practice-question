@@ -1,0 +1,63 @@
+* { position: static }
+
+/* 
+
+    display: inline-block <--  not start with new line, can define height and width 
+    display: block <--  can define width, height always start with new line, it takes full width
+    display: inline <-- not define height and width  
+*/
+/* 
+takes top , left , right , bottom , from there own position
+takes there own position
+top:10 , take form own position
+*/
+* { position: relative; top:100px }
+
+
+/*  
+takes top , left , right , bottom , from window
+remove there own position
+top:10 , take form top of window
+*/
+
+
+* { position: absolute; top:100px }
+
+/* static fixed own position 
+remove own space
+ 
+top:10 , take form top of window
+
+*/
+* { position: fixed; top:100px }
+
+/* static fixed own position with in parent element
+fixed form top 100px  when there parent element is shown on window, parent element  remove from screen from scrolling
+*/
+
+* { position: sticky; top:100px }
+
+
+/* -------------------- */
+
+/* 
+
+centered position child container
+.child.absolute  --> top, left, right, bottom take from parent div
+
+*/
+.parent.relative {
+    position: relative;
+    width: 400px;
+    height: 200px;
+    border: 3px solid #73AD21;
+  } 
+  
+  .child.absolute {
+    position: absolute; 
+    left: 50%; 
+    top:50%;
+    border: 3px solid #73AD21;
+    transform: translate(-50%, -50%); /* Centers the element */
+  }
+

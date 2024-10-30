@@ -1,0 +1,16 @@
+# Write your MySQL query statement below  ,
+select Department,   Employee ,  Salary 
+FROM ( select d.name Department, e.name Employee ,e.salary Salary ,   DENSE_RANK() OVER (PARTITION BY e.departmentId ORDER BY e.salary DESC) AS S_rank  from Employee e join Department d on e.departmentId = d.id) 
+as tbl where S_rank <=3  ;
+ 
+
+-- SELECT d.Name as Department,
+-- e.Name as Employee,
+-- e.Salary as Salary
+-- FROM Department d, Employee e
+-- WHERE(
+--     SELECT COUNT(distinct Salary)
+--     FROM Employee
+--     WHERE Salary > e.Salary AND DepartmentId = d.Id
+-- ) < 3 AND e.DepartmentId = d.Id
+-- ORDER BY d.Id, e.Salary desc;

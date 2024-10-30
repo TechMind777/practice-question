@@ -1,0 +1,287 @@
+docker Deamon - creat image 
+docker desktop
+
+>docker -v --->
+>docker run -it ubuntu  # -it --> itrative
+>exit
+
+hub.docker.com
+
+image -> like OS
+container -> run image isolated
+
+> docker container ls  -> show container list
+> docker container ls -a  -> show container list with detail
+> docker start <container_name>
+> docker stop <container_name>
+> docker exec <container_name> ls    ----> return ls command result and back to computer terminal (Exit from container)
+> docker exec -it <container_name> bash  ----> return bash command result and not back to computer terminal (not Exit from container)
+> docker image ls  --> to show docker image
+> docker run -it nodejs  --> run nodejs image 
+
+
+---------------port mapping----------
+-- expos port -> which is run inside in container , we went to access in web browser
+
+> docker run -it mailhog/mailhog --> mailhog not able to access out side from container
+> docker run -it -p 1025:1025 mailhog/mailhog --> first port is container port other is local matchan
+
+-- also expose multiple port
+> docker pull mailhog/mailhog
+> docker run -it -p 1025:1025 -p 1025:1025 mailhog/mailhog --> first port is container port other is local matchan
+> docker run -it -p 1000-1025:1000-1025  mailhog/mailhog -->  allow range of port
+
+dockerisation/containerization
+
+>npm init
+>npm i 
+
+create file `Dockerfile` 
+
+    FROM ubuntu
+    RUN apt-get update
+    RUN apt-get install -y curl
+
+    RUN curl -SL http://deb.nodesource.com/setup-18.x | bash
+    RUN apt-get update -y
+
+    COPY package.json package.json 
+    COPY package-lock.json package-lock.json 
+    COPY main.js main.json
+
+    RUN npm install
+
+    ENRTYPOINT ['node', 'main.js']
+
+
+command for build image
+>docker build -t my-image .
+  build image -t --> tag
+  my-image --> image name wich we create
+  .  --> location of files
+
+>docker run -it -p 8000:8000 my-image
+>docker exec -it my-image bash
+
+> cat main.js --> show text of file
+
+
+--------------
+caching layers
+
+-----------------------
+pushing 
+--creat image in hub.docker
+--creat image same name in local system
+>docker push jayrajpoot/my-image
+>docker login
+
+----------------------------
+docker compose  --> setup multiple container
+
+-services
+-portMapping
+-Enu Variables
+
+docker-compose.yml --> add this file in project
+
+version:'3.8'
+services:
+    postgres:
+        image:postgres
+        ports:
+            -'5432:5432'
+        environment
+            POSTGRES_USER: postgres
+            POSTGRES_DB: review
+            POSTGRES_PASSWORD: pssword
+    redis:
+        image: redis
+        port:
+            -'6379:6379'
+
+
+
+>docker compose up
+>sudo docker compose up
+
+> docker compose down
+> docker compose up -d # -d --> dechamode, run in background
+
+Docker Compose Commands:
+
+docker-compose up: Builds, creates, and starts services defined in docker-compose.yml.
+docker-compose down: Stops and removes containers, networks, and volumes.
+docker-compose ps: Lists containers.
+docker-compose logs: Displays log output from services.
+docker-compose exec: Runs a command in a running service container.
+
+
+------------------------
+1. Docker Networking
+    a. Brodge
+    b. Host
+
+2. Volume Mounting
+3. Efficient chaching in layers
+4. Docker multi-stage build
+5. Amazon Elastic container services & ECR
+
+> docker run -it --name my-container busybox
+>ping google.com
+
+> docker run -it busybox
+> docker network inspact bridge
+        - ther we show the detail of bridge 
+        - we check all contain connected with bridge
+
+> docker network ls
+        -show all network drive local
+
+>docker run -it  busybox (default network bridge)
+        - docker run -it -p 8000:8000 nodejs
+        
+>docker run -it --network = host busybox 
+        -docker run -it  nodejs -->we no need to expose port
+
+>docker run -it -p 8000:8000 nodejs
+
+
+>docker run -it --network = none busybox
+        - No access of network
+    >ping google.com
+        - giving error bad address
+
+---------------------
+custom Network
+
+> docker network creat -d bridge youtube
+
+> docker run -it --network=youtube -name tonystark ubuntu
+
+
+-----------------------Docker volume
+- when container is distroy all memory or file will also deleted
+-  we prevent it , we use docker volume
+
+- work as permanet memory 
+> docker run -it -v /user/ajay/desktop/myfolder : /name/myfolder ubuntu
+> docker run -it abcx /user/ajay/desktop/myfolder : /name/myfolder ubuntu
+    - first location  is from local , and sencod from container 
+
+-creat volume in docker
+> docker volume  myVolumne
+
+
+---------------------------------- Efficient chaching
+By default all layers chached 
+- any layer update , after that all layers run
+
+COPY . . --> all file copy from current dir to container root directory
+
+- add file  `dockerignore` 
+node_module/
+
+
+or
+
+    FROM ubuntu
+    RUN apt-get update
+    RUN apt-get install -y curl
+
+    RUN curl -SL http://deb.nodesource.com/setup-18.x | bash
+    RUN apt-get update -y
+
+    COPY package.json /app/package.json 
+    COPY package-lock.json /app/package-lock.json 
+    COPY main.js /app/main.json
+
+    RUN cd app && npm install
+
+    ENRTYPOINT ['node', 'app/main.js']
+
+or
+
+WORKDIR /app
+
+    COPY package.json package.json 
+    COPY package-lock.json package-lock.json 
+    COPY main.js main.json
+
+    RUN cd app && npm install
+
+    ENRTYPOINT ['node', 'main.js']
+
+
+
+    --------------------------------multi-stage builds
+Multi-Stage Builds in Docker
+    Multi-stage builds are a powerful feature in Docker that allow you to optimize your image size and build process by creating multiple build stages. This is especially useful for large applications with complex dependencies or when you need to separate build steps for different environments (e.g., development, testing, production).
+
+How Multi-Stage Builds Work
+    -Define Multiple Build Stages: In your Dockerfile, use the FROM instruction to specify multiple base images for different stages.
+    -Copy and Build in Intermediate Stages: Copy necessary files and build intermediate artifacts in earlier stages.
+    -Copy Artifacts to Final Stage: Copy only the required artifacts from intermediate stages to the final stage.
+    -Create the Final Image: The final stage will contain the minimal set of files needed for your application to run.
+
+    Example:
+    Dockerfile
+        # Stage 1: Build the application
+        FROM node:18-alpine as builder
+        WORKDIR /app
+        COPY package*.json ./
+        RUN npm install
+        COPY . .
+        RUN npm run build   
+
+
+        # Stage 2: Create the production image
+        FROM nginx:alpine
+        COPY --from=builder /app/dist   
+        /usr/share/nginx/html
+
+
+In this example:
+
+    -Stage 1: Builds the application using Node.js and Alpine Linux.
+    -Stage 2: Copies the built application files from Stage 1 to a Nginx image, creating the final production image.
+
+Benefits of Multi-Stage Builds
+    -Smaller Image Sizes: By copying only the necessary files to the final stage, you can significantly reduce image size.
+    -Improved Build Performance: Separating build steps can improve performance, especially for large applications.
+    -Enhanced Security: Limiting the final image to essential components reduces the attack surface.
+    -Better Organization: Multi-stage builds help organize your Dockerfile into logical stages.
+
+Additional Considerations
+    -Caching: Docker caches intermediate build stages to improve performance.
+    -Best Practices: Use clear stage names and comments to make your Dockerfile easier to understand.
+    -Environment Variables: Consider using environment variables to configure your build stages.
+    -Build Arguments: Use build arguments to customize your build process.
+
+    
+By effectively using multi-stage builds, you can optimize your Docker images and streamline your development and deployment workflows.
+
+
+
+
+
+
+
+
+
+
+
+> 
+
+
+
+
+
+
+
+
+>
+
+
+
+

@@ -1,0 +1,25 @@
+delete p1
+from Person p1
+inner join Person p2
+on p1.email=p2.email and p1.id>p2.id;
+
+delete  p1
+from person p1,person p2
+where p1.id>p2.id and p1.email=p2.email
+
+
+delete from Person where id not in (
+    select P.* from (select min(id) from Person
+    group by email) P
+)
+
+
+DELETE FROM person
+WHERE id IN (
+    SELECT id
+    FROM (
+        SELECT id, RANK() OVER (PARTITION BY email ORDER BY id) AS rn
+        FROM person
+    ) AS RankedPersons
+    WHERE rn > 1
+);

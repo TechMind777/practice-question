@@ -1,0 +1,50 @@
+*{
+    /* when we give size to element border include in size */
+    box-sizing: border-box; 
+}
+
+.container{
+    display: flex;
+    flex-direction: row ; /* row column column-reverse row-reverse;  */
+
+    /* nowrap column not change there row when display sink */
+    /* flex-wrap: nowrap; */
+
+    /* wrap column  change there row when display sink */
+    flex-wrap: wrap ; /* wrap-reverse; */
+
+    /*   flex-wrap: wrap,  flex-wrap: row-reverse , this short hand */
+    /* flex-flow: wrap reverse; */
+
+    /* space between element like margin , it is only between element */
+    /* gap: 10px;  */
+    row-gap: 10px; column-gap: 10px;
+
+
+    /* 
+    justifiy-content to ther main axis (horizontal)
+   
+    flex-start flex-end center space-between space-around space-evenly; */
+    justify-content: center; 
+
+    /* align-items to ther cross axis (vertical)
+    flex-start flex-end center baseline stretch;
+     */
+    align-items: center;  
+    
+    /*  align-content to ther cross axis (vertical) */
+    align-content: start;
+    
+    
+}
+.child{
+
+    order: 1;
+}
+
+#box-1{
+    order: 1;
+    flex-grow: 1;
+    flex-shrink: 2;
+    flex-basis: 200%;
+}
