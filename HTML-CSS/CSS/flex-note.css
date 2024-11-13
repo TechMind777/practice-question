@@ -1,0 +1,53 @@
+display:flex;
+
+flex-direction 
+
+	The flex-direction property in CSS Flexbox defines the main axis direction along which flex items are arranged. Here’s a breakdown of the options:
+
+	row: Aligns items in a horizontal row, from left to right (default).
+	row-reverse: Aligns items in a horizontal row, but in reverse order, from right to left.
+	column: Aligns items in a vertical column, from top to bottom.
+	column-reverse: Aligns items in a vertical column, but in reverse order, from bottom to top.
+	Usage: Use row and row-reverse for horizontal layouts, and column and column-reverse for vertical layouts, depending on the desired order and axis.
+
+
+
+
+
+
+flex: 1 1 0 // == flex: 1 --> it is short hand
+
+flex-grow: Controls how much a flex item can grow relative to others when extra space is available. A higher value means the item will take more space proportionally.
+
+flex-shrink: Dictates how much a flex item can shrink relative to others when space is limited. A higher value means the item will shrink more compared to others.
+
+flex-basis: Defines the default size of a flex item before any growing or shrinking happens. It can be a specific value (e.g., 200px) or auto.
+
+justify-content: the justify-content options in CSS Flexbox, which align items along the main axis:
+
+	flex-start: Aligns items to the start of the container (default for flex containers).
+	flex-end: Aligns items to the end of the container.
+	center: Centers items along the main axis.
+	space-around: Adds equal space around items, with half-sized space on each end.
+	space-between: Distributes items with equal space between, with no extra space at the ends.
+	space-evenly: Distributes items with equal space between and on the ends.
+	stretch: Not used with justify-content, but stretches items in cross-axis alignment.
+	Non-Flexbox-specific options
+	start and end: Align items at the start or end of the container based on the text direction.
+	left and right: Align items to the left or right of the container (considering direction).
+	normal: Resets alignment to the default based on the container's layout model.
+
+
+ align-items options in CSS Flexbox, which align items along the cross-axis (perpendicular to the main axis):
+
+	These properties are often used to control vertical alignment in row-based flex layouts and horizontal alignment in column-based flex layouts.
+	
+	stretch: Stretches items to fill the container along the cross-axis (default behavior for flex containers).
+	flex-start: Aligns items at the start of the cross-axis.
+	flex-end: Aligns items at the end of the cross-axis.
+	center: Centers items along the cross-axis.
+	baseline: Aligns items along their first baseline (useful for aligning text across items).
+	last baseline: Aligns items along their last baseline (less commonly used than baseline).
+	Non-Flexbox-specific options
+	start and end: Align items to the start or end of the cross-axis based on the writing mode.
+

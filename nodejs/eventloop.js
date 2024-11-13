@@ -62,4 +62,70 @@ elevent loop hava 7 - thread
     4 threads for DNS lookup -> which used to share above LIBUV thread pool but separated to solve this issue
 
 
+In JavaScript, the Microtask Queue (also known as the Job Queue) handles tasks that need to be executed after the currently executing script finishes but before the next event loop iteration. Microtasks are typically high-priority tasks that should run as soon as possible after the current execution stack is cleared.
+
+The most common sources of microtasks in JavaScript are:
+
+    Promises
+
+        When a promise is resolved or rejected, any then or catch handlers attached to it are queued as microtasks.
+       
+        
+            Promise.resolve().then(() => {
+            console.log("Microtask from Promise");
+            });
+
+    process.nextTick (Node.js only)
+
+        In Node.js, process.nextTick schedules a microtask to run at the end of the current phase of the event loop, even before other microtasks.
+       
+        
+            process.nextTick(() => {
+            console.log("Microtask from process.nextTick");
+            });
+
+    MutationObserver
+
+        The MutationObserver API allows you to observe changes to the DOM and queue a callback as a microtask when a change occurs.
+       
+        
+            const observer = new MutationObserver(() => {
+            console.log("Microtask from MutationObserver");
+            });
+
+            observer.observe(document.body, { childList: true });
+            document.body.appendChild(document.createElement("div"));
+
+How Microtasks Compare to Macrotasks
+    Microtasks are executed after the current stack clears, but before rendering and before any macrotasks.
+    Macrotasks include tasks like setTimeout, setInterval, setImmediate (Node.js), and I/O operations. These are queued in the Macrotask Queue and executed in the next event loop iteration.
+
+
+Here’s a simple example illustrating the order of execution between macrotasks and microtasks:
+ 
+    console.log("Start");
+
+    setTimeout(() => {
+    console.log("Macrotask from setTimeout");
+    }, 0);
+
+    Promise.resolve().then(() => {
+    console.log("Microtask from Promise");
+    });
+
+    console.log("End");
+
+    // Output:
+    // Start
+    // End
+    // Microtask from Promise
+    // Macrotask from setTimeout
+
+
+In this example:
+
+    Synchronous code (console.log("Start") and console.log("End")) executes first.
+    The promise's then callback, which is a microtask, runs immediately after the synchronous code.
+    The setTimeout callback, a macrotask, runs after all microtasks have completed.
+
 */  
